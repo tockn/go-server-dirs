@@ -1,7 +1,7 @@
 package view
 
 import (
-	"github.com/tockn/go-dirs/mvc/model"
+	"github.com/tockn/go-dirs/repository/model"
 )
 
 type User struct {
