@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -8,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tockn/go-dirs/service/mock"
-	"github.com/tockn/go-dirs/service/model"
+	"github.com/tockn/go-dirs/domain_service/mock"
+	"github.com/tockn/go-dirs/domain_service/rdb/model"
 
-	"github.com/tockn/go-dirs/service/repository"
+	"github.com/tockn/go-dirs/domain_service/domain/repository"
 )
 
 func TestHandler_GetUser(t *testing.T) {
@@ -29,6 +30,13 @@ func TestHandler_GetUser(t *testing.T) {
 			expectBody: []byte(`{"id":"1","name":"hoge"}
 `),
 			expectCode: 200,
+		},
+		{
+			name: "get user error",
+			repo: &mock.UserRepository{
+				ExpectedUserError: errors.New("error"),
+			},
+			expectCode: 500,
 		},
 	}
 	for _, tt := range tests {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/tockn/go-dirs/service/repository"
+	"github.com/tockn/go-dirs/domain_service/domain/repository"
 
-	"github.com/tockn/go-dirs/service/model"
+	"github.com/tockn/go-dirs/domain_service/rdb/model"
 )
 
 func NewUserRepository(db *sql.DB) repository.User {

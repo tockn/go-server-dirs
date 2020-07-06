@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/tockn/go-dirs/service/repository"
+	"github.com/tockn/go-dirs/domain_service/domain/repository"
 )
 
 type Handler struct {
