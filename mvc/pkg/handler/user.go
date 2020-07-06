@@ -11,7 +11,7 @@ import (
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var req view.CreateUserRequest
-	if err := json.NewEncoder(w).Encode(&req); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}

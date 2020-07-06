@@ -13,6 +13,6 @@ type Handler struct {
 
 func (h *Handler) Router() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/users/{userID}", h.Create).Methods(http.MethodGet)
+	r.HandleFunc("/users", h.Create).Methods(http.MethodPost)
 	return r
 }
