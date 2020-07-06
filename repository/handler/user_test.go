@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -29,6 +30,13 @@ func TestHandler_GetUser(t *testing.T) {
 			expectBody: []byte(`{"id":"1","name":"hoge"}
 `),
 			expectCode: 200,
+		},
+		{
+			name: "internal error",
+			repo: &mock.UserRepository{
+				ExpectedError: errors.New("error"),
+			},
+			expectCode: 500,
 		},
 	}
 	for _, tt := range tests {
