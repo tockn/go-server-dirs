@@ -4,19 +4,18 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/tockn/go-dirs/mvc/pkg/view"
-
-	"github.com/tockn/go-dirs/mvc/pkg/model"
+	"github.com/tockn/go-dirs/repository/pkg/view"
 )
 
-func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 	var req view.CreateUserRequest
 	if err := json.NewEncoder(w).Encode(&req); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	u, err := model.CreateUser(h.db, req.Name)
+	ctx := r.Context()
+	u, err := h.UserRepository.Create(ctx, req.Name)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

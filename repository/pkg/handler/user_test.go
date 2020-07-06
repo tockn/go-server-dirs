@@ -9,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tockn/go-dirs/repository/mock"
-	"github.com/tockn/go-dirs/repository/model"
+	"github.com/tockn/go-dirs/repository/pkg/mock"
+	"github.com/tockn/go-dirs/repository/pkg/model"
 
-	"github.com/tockn/go-dirs/repository/repository"
+	"github.com/tockn/go-dirs/repository/pkg/repository"
 )
 
 func TestHandler_GetUser(t *testing.T) {
@@ -48,7 +48,7 @@ func TestHandler_GetUser(t *testing.T) {
 			}
 
 			h := &Handler{
-				userRepository: tt.repo,
+				UserRepository: tt.repo,
 			}
 			h.Router().ServeHTTP(recorder, req)
 

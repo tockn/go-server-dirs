@@ -3,7 +3,7 @@ package mock
 import (
 	"context"
 
-	"github.com/tockn/go-dirs/repository/model"
+	"github.com/tockn/go-dirs/repository/pkg/model"
 )
 
 type UserRepository struct {
@@ -11,6 +11,6 @@ type UserRepository struct {
 	ExpectedError error
 }
 
-func (r *UserRepository) GetByID(ctx context.Context, id string) (*model.User, error) {
+func (r *UserRepository) Create(ctx context.Context, id string) (*model.User, error) {
 	return r.ExpectedUser, r.ExpectedError
 }
