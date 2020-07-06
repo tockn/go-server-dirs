@@ -12,7 +12,7 @@ import (
 func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
 	var req view.CreateUserRequest
 	if err := json.NewEncoder(w).Encode(&req); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
