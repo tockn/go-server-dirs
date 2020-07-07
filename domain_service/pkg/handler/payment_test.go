@@ -2,6 +2,7 @@ package handler
 
 import (
 	"bytes"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -28,6 +29,22 @@ func TestPayment_Pay(t *testing.T) {
 			expectBody: []byte(`{"status":"succeeded"}
 `),
 			expectCode: 201,
+		},
+		{
+			name:       "bad json format",
+			reqBody:    []byte(`not json`),
+			service:    &mock.PaymentService{},
+			expectCode: 400,
+		},
+		{
+			name:    "pay error",
+			reqBody: []byte(`{"payerID":1,"payeeID":2,"amount":100}`),
+			service: &mock.PaymentService{
+				ExpectedError: errors.New("failed message"),
+			},
+			expectBody: []byte(`{"status":"failed","failed_message":"failed message"}
+`),
+			expectCode: 500,
 		},
 	}
 
