@@ -41,7 +41,7 @@ func (b *balance) Transfer(ctx context.Context, senderID, receiverID int64, amou
 	}
 	defer func() {
 		if err != nil {
-			if err := b.repository.Rollback(ctx); err != nil {
+			if _, err := b.repository.Rollback(ctx); err != nil {
 				lg.Error("送金処理のRollbackに失敗しました")
 			}
 			return
@@ -56,17 +56,27 @@ func (b *balance) Transfer(ctx context.Context, senderID, receiverID int64, amou
 	if amount > senderBalance.Amount {
 		return fmt.Errorf("残高が足りません")
 	}
+	senderBalance.Amount -= amount
 
-	if _, err := b.repository.Decrease(ctx, senderID, amount); err != nil {
-		lg.Error("出金に失敗しました")
+	receiverBalance, err := b.repository.GetByUserID(ctx, receiverID)
+	if err != nil {
 		return err
 	}
-	if _, err := b.repository.Increase(ctx, receiverID, amount); err != nil {
-		lg.Error("入金に失敗しました")
+	receiverBalance.Amount += amount
+
+	err = b.repository.Update(ctx, senderBalance)
+	if err != nil {
+		lg.Error("出金後残高登録に失敗しました")
+		return err
+	}
+	err = b.repository.Update(ctx, receiverBalance)
+	if err != nil {
+		lg.Error("入金後残高登録に失敗しました")
 		return err
 	}
 
-	if err := b.repository.Commit(ctx); err != nil {
+	ctx, err = b.repository.Commit(ctx)
+	if err != nil {
 		lg.Error("送金処理のCommitに失敗しました")
 		return err
 	}
