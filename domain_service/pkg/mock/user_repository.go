@@ -7,17 +7,10 @@ import (
 )
 
 type UserRepository struct {
-	ExpectedUser      *entity.User
-	ExpectedUserError error
-
-	ExpectedFriend      bool
-	ExpectedFriendError error
+	ExpectedUser  *entity.User
+	ExpectedError error
 }
 
-func (r *UserRepository) GetByID(ctx context.Context, id string) (*entity.User, error) {
-	return r.ExpectedUser, r.ExpectedUserError
-}
-
-func (r *UserRepository) IsFriend(ctx context.Context, id1, id2 string) (bool, error) {
-	return r.ExpectedFriend, r.ExpectedFriendError
+func (r *UserRepository) Create(ctx context.Context, name string) (*entity.User, error) {
+	return r.ExpectedUser, r.ExpectedError
 }

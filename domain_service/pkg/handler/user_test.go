@@ -8,10 +8,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/entity"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/tockn/go-dirs/domain_service/pkg/mock"
-	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
 
 	"github.com/tockn/go-dirs/domain_service/pkg/domain/repository"
 )
@@ -20,15 +21,15 @@ func TestHandler_GetUser(t *testing.T) {
 	tests := []struct {
 		name       string
 		reqBody    []byte
-		repo       repository.User
+		service    repository.User
 		expectBody []byte
 		expectCode int
 	}{
 		{
 			name:    "success",
 			reqBody: []byte(`{"name":"hoge"}`),
-			repo: &mock.UserRepository{
-				ExpectedUser: modelUser1(),
+			service: &mock.UserService{
+				ExpectedUser: user1(),
 			},
 			expectBody: []byte(`{"id":1,"name":"hoge"}
 `),
@@ -37,13 +38,13 @@ func TestHandler_GetUser(t *testing.T) {
 		{
 			name:       "bad json format",
 			reqBody:    []byte(`not json`),
-			repo:       &mock.UserRepository{},
+			service:    &mock.UserService{},
 			expectCode: 400,
 		},
 		{
 			name:    "internal error",
 			reqBody: []byte(`{"name":"hoge"}`),
-			repo: &mock.UserRepository{
+			service: &mock.UserService{
 				ExpectedError: errors.New("error"),
 			},
 			expectCode: 500,
@@ -58,7 +59,7 @@ func TestHandler_GetUser(t *testing.T) {
 			}
 
 			h := &Handler{
-				UserRepository: tt.repo,
+				User: User{tt.service},
 			}
 			h.Router().ServeHTTP(recorder, req)
 
@@ -72,8 +73,8 @@ func TestHandler_GetUser(t *testing.T) {
 
 var fixedTime = time.Date(2020, 7, 5, 0, 0, 0, 0, time.UTC)
 
-func modelUser1() *model.User {
-	return &model.User{
+func user1() *entity.User {
+	return &entity.User{
 		ID:   1,
 		Name: "hoge",
 	}
