@@ -9,7 +9,7 @@ import (
 )
 
 type Balance interface {
-	Transfer(ctx context.Context, senderID, receiverID int64, amount int64) error
+	Transfer(ctx context.Context, senderID, receiverID, amount int64) error
 }
 
 func NewBalance(
