@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/tockn/go-dirs/domain_service/view"
+	"github.com/tockn/go-dirs/domain_service/pkg/view"
 
 	"github.com/gorilla/mux"
 )

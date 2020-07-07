@@ -1,7 +1,7 @@
 package view
 
 import (
-	"github.com/tockn/go-dirs/domain_service/rdb/model"
+	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
 )
 
 type User struct {

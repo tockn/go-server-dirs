@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/tockn/go-dirs/domain_service/domain/repository"
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/repository"
 
-	"github.com/tockn/go-dirs/domain_service/rdb/model"
+	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
 )
 
 type User interface {

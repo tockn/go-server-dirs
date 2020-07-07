@@ -3,7 +3,7 @@ package mock
 import (
 	"context"
 
-	"github.com/tockn/go-dirs/domain_service/domain/entity"
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/entity"
 )
 
 type UserRepository struct {

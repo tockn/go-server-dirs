@@ -4,9 +4,11 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/tockn/go-dirs/domain_service/domain/repository"
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/entity"
 
-	"github.com/tockn/go-dirs/domain_service/rdb/model"
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/repository"
+
+	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
 )
 
 func NewUserRepository(db *sql.DB) repository.User {
@@ -17,7 +19,7 @@ type userRepository struct {
 	db *sql.DB
 }
 
-func (r *userRepository) GetByID(ctx context.Context, id string) (*model.User, error) {
+func (r *userRepository) GetByID(ctx context.Context, id string) (*entity.User, error) {
 	row := r.db.QueryRow(`
 		SELECT
 			id,

@@ -9,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tockn/go-dirs/domain_service/mock"
-	"github.com/tockn/go-dirs/domain_service/rdb/model"
+	"github.com/tockn/go-dirs/domain_service/pkg/mock"
+	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
 
-	"github.com/tockn/go-dirs/domain_service/domain/repository"
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/repository"
 )
 
 func TestHandler_GetUser(t *testing.T) {
