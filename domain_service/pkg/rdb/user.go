@@ -7,8 +7,6 @@ import (
 	"github.com/tockn/go-dirs/domain_service/pkg/domain/entity"
 
 	"github.com/tockn/go-dirs/domain_service/pkg/domain/repository"
-
-	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
 )
 
 func NewUserRepository(db *sql.DB) repository.User {
@@ -19,27 +17,24 @@ type userRepository struct {
 	db *sql.DB
 }
 
-func (r *userRepository) GetByID(ctx context.Context, id string) (*entity.User, error) {
-	row := r.db.QueryRow(`
-		SELECT
-			id,
-			name,
-			created_at,
-			updated_at
-		FROM
+func (r *userRepository) Create(ctx context.Context, name string) (*entity.User, error) {
+	res, err := r.db.Exec(`
+		INSERT INTO
 			users
-		WHERE
-			id = ?
-	`, id)
-
-	var u model.User
-	if err := row.Scan(&u.ID, &u.Name, &u.CreatedAt, &u.UpdatedAt); err != nil {
+		VALUES
+			(name)
+	`, name)
+	if err != nil {
 		return nil, err
 	}
-	return &u, nil
-}
 
-func (r *userRepository) IsFriend(ctx context.Context, id1, id2 string) (bool, error) {
-	// TODO
-	return false, nil
+	id, err := res.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	return &entity.User{
+		ID:   id,
+		Name: name,
+	}, nil
 }

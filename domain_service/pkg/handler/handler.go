@@ -3,16 +3,17 @@ package handler
 import (
 	"net/http"
 
+	"github.com/tockn/go-dirs/domain_service/pkg/domain/service"
+
 	"github.com/gorilla/mux"
-	"github.com/tockn/go-dirs/domain_service/pkg/domain/repository"
 )
 
 type Handler struct {
-	userRepository repository.User
+	UserService service.User
 }
 
 func (h *Handler) Router() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/users/{userID}", h.GetUser).Methods(http.MethodGet)
+	r.HandleFunc("/users", h.Create).Methods(http.MethodPost)
 	return r
 }

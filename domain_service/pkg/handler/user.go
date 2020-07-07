@@ -5,22 +5,28 @@ import (
 	"net/http"
 
 	"github.com/tockn/go-dirs/domain_service/pkg/view"
-
-	"github.com/gorilla/mux"
 )
 
-func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["userID"]
+func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
+	var req view.CreateUserRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	ctx := r.Context()
-	u, err := h.userRepository.GetByID(ctx, id)
+	u, err := h.UserService.Create(ctx, req.Name)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(view.UserFromModel(u)); err != nil {
+	resp := view.CreateUserResponse{
+		ID:   u.ID,
+		Name: u.Name,
+	}
+
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

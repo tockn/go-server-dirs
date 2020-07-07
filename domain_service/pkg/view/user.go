@@ -1,17 +1,10 @@
 package view
 
-import (
-	"github.com/tockn/go-dirs/domain_service/pkg/rdb/model"
-)
-
-type User struct {
-	ID   string `json:"id"`
+type CreateUserRequest struct {
 	Name string `json:"name"`
 }
 
-func UserFromModel(m *model.User) *User {
-	return &User{
-		ID:   m.ID,
-		Name: m.Name,
-	}
+type CreateUserResponse struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }

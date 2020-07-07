@@ -1,6 +1,6 @@
 package entity
 
 type User struct {
-	ID   string
+	ID   int64
 	Name string
 }

@@ -7,5 +7,5 @@ import (
 )
 
 type User interface {
-	GetByID(ctx context.Context, id string) (*entity.User, error)
+	Create(ctx context.Context, name string) (*entity.User, error)
 }
